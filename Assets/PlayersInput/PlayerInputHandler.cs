@@ -16,15 +16,18 @@ public class PlayerInputHandler : MonoBehaviour
     [SerializeField] private string look = "Look";
     [SerializeField] private string jump = "jump";
     [SerializeField] private string sprint = "sprint";
+    [SerializeField] private string grappling = "grappling";
 
     private InputAction moveAction;
     private InputAction lookAction;
     private InputAction jumpAction;
     private InputAction sprintAction;
+    private InputAction grabAction;
 
     public Vector2 MoveInput { get; private set; }
     public Vector2 LookInput { get; private set; }
     public bool JumpTriggered { get; private set; }
+    public bool GrabTriggered { get; set; }
     public float SprintValue { get; private set; }
 
     public static PlayerInputHandler Instance { get; private set; }
@@ -42,6 +45,7 @@ public class PlayerInputHandler : MonoBehaviour
         lookAction = playerControls.FindActionMap(actionMapName).FindAction(look);
         jumpAction = playerControls.FindActionMap(actionMapName).FindAction(jump);
         sprintAction = playerControls.FindActionMap(actionMapName).FindAction(sprint);
+        grabAction = playerControls.FindActionMap(actionMapName).FindAction(grappling);
 
         RegisterInputActions();
     }
@@ -59,6 +63,9 @@ public class PlayerInputHandler : MonoBehaviour
         
         sprintAction.performed += ctx => SprintValue = ctx.ReadValue<float>();
         sprintAction.canceled += ctx => SprintValue = 0f;
+
+        grabAction.performed += ctx => GrabTriggered = true;
+        grabAction.canceled += ctx => GrabTriggered = false;
     }
 
     private void OnEnable()
@@ -67,6 +74,7 @@ public class PlayerInputHandler : MonoBehaviour
         lookAction.Enable();
         jumpAction.Enable();
         sprintAction.Enable();
+        grabAction.Enable();
     }
 
     private void OnDisable()
@@ -75,5 +83,6 @@ public class PlayerInputHandler : MonoBehaviour
         lookAction.Disable();
         jumpAction.Disable();
         sprintAction.Disable();
+        grabAction.Disable();
     }
 }
