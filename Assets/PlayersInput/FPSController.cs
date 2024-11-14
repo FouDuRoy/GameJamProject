@@ -14,7 +14,7 @@ public class FPSController : MonoBehaviour
     [SerializeField] private float gravity = 9.81f;
 
     [Header("Movement Speeds")]
-    [SerializeField] private float mouseSensitivity = 2.0f;
+    [SerializeField] private float mouseSensitivity = 0.1f;
     [SerializeField] private float upDownRange = 80.0f;
 
     private CharacterController characterController;
