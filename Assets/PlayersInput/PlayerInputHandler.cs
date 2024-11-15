@@ -17,17 +17,20 @@ public class PlayerInputHandler : MonoBehaviour
     [SerializeField] private string jump = "jump";
     [SerializeField] private string sprint = "sprint";
     [SerializeField] private string grappling = "grappling";
+    [SerializeField] private string shoot = "shoot";
 
     private InputAction moveAction;
     private InputAction lookAction;
     private InputAction jumpAction;
     private InputAction sprintAction;
     private InputAction grabAction;
+    private InputAction shootAction;
 
     public Vector2 MoveInput { get; private set; }
     public Vector2 LookInput { get; private set; }
     public bool JumpTriggered { get; private set; }
     public bool GrabTriggered { get; set; }
+    public bool ShootTriggered { get; set; }
     public float SprintValue { get; private set; }
 
     public static PlayerInputHandler Instance { get; private set; }
@@ -46,6 +49,7 @@ public class PlayerInputHandler : MonoBehaviour
         jumpAction = playerControls.FindActionMap(actionMapName).FindAction(jump);
         sprintAction = playerControls.FindActionMap(actionMapName).FindAction(sprint);
         grabAction = playerControls.FindActionMap(actionMapName).FindAction(grappling);
+        shootAction = playerControls.FindActionMap(actionMapName).FindAction(shoot);
 
         RegisterInputActions();
     }
@@ -66,6 +70,9 @@ public class PlayerInputHandler : MonoBehaviour
 
         grabAction.performed += ctx => GrabTriggered = true;
         grabAction.canceled += ctx => GrabTriggered = false;
+
+        shootAction.performed += ctx => ShootTriggered = true;
+        shootAction.canceled += ctx => ShootTriggered = false;
     }
 
     private void OnEnable()
@@ -75,6 +82,7 @@ public class PlayerInputHandler : MonoBehaviour
         jumpAction.Enable();
         sprintAction.Enable();
         grabAction.Enable();
+        shootAction.Enable();
     }
 
     private void OnDisable()
@@ -84,5 +92,6 @@ public class PlayerInputHandler : MonoBehaviour
         jumpAction.Disable();
         sprintAction.Disable();
         grabAction.Disable();
+        shootAction.Disable();
     }
 }
